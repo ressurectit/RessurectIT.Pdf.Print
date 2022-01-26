@@ -1,0 +1,34 @@
+{
+    "compilerOptions":
+    {
+        "target": "es2020",
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "sourceMap": false,
+        "inlineSources": false,
+        "declaration": false,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitOverride": true,
+        "noImplicitThis": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "strict": true,
+        "strictNullChecks": true,
+        "esModuleInterop": true,
+        "importHelpers": true,
+        "newLine": "lf",
+        "rootDir": "src",
+        "outDir": "out",
+        "lib":
+        [
+            "es2020"
+        ],
+    },
+    "exclude":
+    [
+        "node_modules"
+    ]
+}

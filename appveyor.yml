@@ -1,0 +1,56 @@
+image: Visual Studio 2022
+
+environment:
+  nodejs_version: "LTS"
+
+init:
+  - ps: |
+      Install-Product node $env:nodejs_version
+
+install:
+  - ps: ./.utils/fullClean.ps1
+  - ps: mkdir .include
+  - ps: iex ((New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/appveyor/secure-file/master/install.ps1'))
+  - cmd: appveyor-tools\secure-file -decrypt ".includeEnc\RessurectIT.snk.enc" -secret %enc_secret% -salt %snksalt% -out .include\RessurectIT.snk
+  - cmd: appveyor-tools\secure-file -decrypt ".includeEnc\RessurectIT Code.pfx.enc" -secret %enc_secret% -salt %pfxsalt% -out ".include\RessurectIT Code.pfx"
+
+build: off
+test: off
+
+build_script:
+  - ps: |
+      #stable version build
+      if($env:APPVEYOR_REPO_TAG -eq "true")
+      {
+        $env:APPVEYOR_REPO_TAG_NAME -match "^v(\d+\.\d+)\.\d+"
+        git checkout "$($Matches[1])" -q
+
+        ./.utils/build.bat Release $env:pfx_secret
+
+        #release on github
+        $match = [System.Text.RegularExpressions.Regex]::Match((Get-Content "./changelog.md" -Encoding UTF8 | Out-String).TrimEnd(), "## Version \d+\.\d+\.\d+ (?<date>\(\d+-\d+-\d+\))(?<content>.*?)(?:## Version|`$)", [System.Text.RegularExpressions.RegexOptions]::Singleline)
+
+        Set-AppveyorBuildVariable 'Changelog' $match.Groups["content"].Value
+        Set-AppveyorBuildVariable 'ChangeDate' $match.Groups["date"].Value
+      }
+      else
+      {
+        git checkout $env:APPVEYOR_REPO_BRANCH -q
+
+        ./.utils/build.bat Debug
+      }
+  - ps: Update-AppveyorBuild -Version "$(cat src/RessurectIT.Pdf.Print/version.bak)"
+
+
+artifacts:
+  - path: '**\*.msi'
+
+deploy:
+  - provider: GitHub
+    artifact: /.*\.msi/
+    description: '$(Changelog)'
+    auth_token:
+      secure: FOD7P4H4NF3p30wWrc/CUbtuP1YDUtMGeJgiHGo9P8uwpf+fBcKLxLZ/CLCjTsx1
+    force_update: true
+    on:
+      APPVEYOR_REPO_TAG: true

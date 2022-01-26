@@ -1,0 +1,49 @@
+{
+    "name": "ressurectit.pdf.print.nodeserver",
+    "version": "0.0.0-placeholder",
+    "description": "NodeJS server that enables usage of pdf-to-printer using gRPC",
+    "sideEffects": false,
+    "scripts": {
+        "build": "tsc",
+        "clean": "rimraf */temp temp es2015 es2020 **/tsdoc-metadata.json src/**/*.d.ts src/**/*.d.ts.map */src/**/*.d.ts */src/**/*.d.ts.map ./*.d.ts ./*.d.ts.map */*.d.ts",
+        "clean:deps": "rimraf package-lock.json node_modules",
+        "clean:all": "npm run clean && npm run clean:deps",
+        "tsc": "tsc",
+        "version:build": "ngv -e \"echo $GIT_VERSION > version.bak\"",
+        "lint": "eslint src/**/*.ts"
+    },
+    "engines": {
+        "node": "^12.20.0 || ^14.15.0 || >=16.10.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ressurectit/RessurectIT.Pdf.Print.git"
+    },
+    "keywords": [
+        "pdf",
+        "print",
+        "node",
+        "grpc-server"
+    ],
+    "author": "kukjevov",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/ressurectit/RessurectIT.Pdf.Print/issues"
+    },
+    "homepage": "https://github.com/ressurectit/RessurectIT.Pdf.Print",
+    "dependencies": {
+        "pdf-to-printer": "5.2.0",
+        "tslib": "2.3.1"
+    },
+    "devDependencies": {
+        "@types/node": "^14.14.31",
+        "@jscrpt/common": "2.2.0",
+        "eslint": "7.32.0",
+        "@typescript-eslint/eslint-plugin": "4.33.0",
+        "@typescript-eslint/parser": "4.33.0",
+        "eslint-plugin-ressurectit": "0.1.0",
+        "rimraf": "3.0.2",
+        "typescript": "4.5.5",
+        "npm-git-version": "2.0.0"
+    }
+}

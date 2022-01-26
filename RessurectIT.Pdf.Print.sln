@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B2AF2514-578E-4D2D-858D-C17C64731275}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RessurectIT.Pdf.Print", "src\RessurectIT.Pdf.Print\RessurectIT.Pdf.Print.csproj", "{E261B347-ECE8-460B-AC74-D9536160C7FD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		DebugInstaller|Any CPU = DebugInstaller|Any CPU
+		Release|Any CPU = Release|Any CPU
+		ReleaseInstaller|Any CPU = ReleaseInstaller|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E261B347-ECE8-460B-AC74-D9536160C7FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E261B347-ECE8-460B-AC74-D9536160C7FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E261B347-ECE8-460B-AC74-D9536160C7FD}.DebugInstaller|Any CPU.ActiveCfg = DebugInstaller|Any CPU
+		{E261B347-ECE8-460B-AC74-D9536160C7FD}.DebugInstaller|Any CPU.Build.0 = DebugInstaller|Any CPU
+		{E261B347-ECE8-460B-AC74-D9536160C7FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E261B347-ECE8-460B-AC74-D9536160C7FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E261B347-ECE8-460B-AC74-D9536160C7FD}.ReleaseInstaller|Any CPU.ActiveCfg = ReleaseInstaller|Any CPU
+		{E261B347-ECE8-460B-AC74-D9536160C7FD}.ReleaseInstaller|Any CPU.Build.0 = ReleaseInstaller|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E261B347-ECE8-460B-AC74-D9536160C7FD} = {B2AF2514-578E-4D2D-858D-C17C64731275}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {056E5701-D82D-4275-8600-956A603ADF86}
+	EndGlobalSection
+EndGlobal

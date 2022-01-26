@@ -1,0 +1,42 @@
+<Project>
+    <Import Project=".\Dependencies.props" />
+
+    <!-- BASIC INFO -->
+    <PropertyGroup>
+        <Authors>kukjevov</Authors>
+        <Company>Ressurect IT</Company>
+        <Copyright>Copyright © 2022</Copyright>
+    </PropertyGroup>
+
+    <!-- BUILD OPTIONS -->
+    <PropertyGroup>
+        <OutDir>bin</OutDir>
+        <Configurations>Debug;Release;DebugInstaller;ReleaseInstaller</Configurations>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PublishTrimmed>false</PublishTrimmed>
+        <InvariantGlobalization>true</InvariantGlobalization>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>..\..\.include\RessurectIT.snk</AssemblyOriginatorKeyFile>
+        <DelaySign>false</DelaySign>
+    </PropertyGroup>
+
+    <!-- FRAMEWORK -->
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+
+    <!-- PACKAGING -->
+    <PropertyGroup>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/ressurectit/RessurectIT.Pdf.Print.git</RepositoryUrl>
+    </PropertyGroup>
+
+    <!-- SOURCE LINK - PROPERTIES -->
+    <PropertyGroup>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    </PropertyGroup>
+</Project>
