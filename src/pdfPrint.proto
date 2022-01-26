@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+message Empty 
+{
+
+}
+
+message Printer
+{
+    string deviceId = 1;
+    string name = 2;
+}
+
+message AvailablePrinters
+{
+    repeated Printer printers = 1;
+}
+
+message PrintError
+{
+    string message = 1;
+}
+
+message PrintRequest
+{
+    string printer = 1;
+    string pages = 2;
+    string subset = 3;
+}
+
+/**
+ * Service used for handling printing of documents
+ */
+service PrintService
+{
+    rpc GetPrinters(Empty) returns (AvailablePrinters);
+
+    rpc GetDefaultPrinter(Empty) returns (Printer);
+
+    rpc Print(stream PrintRequest) returns (stream PrintError);
+}
+  

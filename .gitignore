@@ -1,13 +1,14 @@
 obj/
 bin/
 Logs/
-out/
+dist/
 node_modules/
 appveyor-tools/
 .include
 .vs
 .utils/*.wxs
 .utils/*.wxi
+**/src/proto/*.ts
 package-lock.json
 
 *~

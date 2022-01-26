@@ -2,14 +2,14 @@
     "name": "ressurectit.pdf.print.nodeserver",
     "version": "0.0.0-placeholder",
     "description": "NodeJS server that enables usage of pdf-to-printer using gRPC",
-    "sideEffects": false,
     "scripts": {
         "build": "tsc",
-        "clean": "rimraf */temp temp es2015 es2020 **/tsdoc-metadata.json src/**/*.d.ts src/**/*.d.ts.map */src/**/*.d.ts */src/**/*.d.ts.map ./*.d.ts ./*.d.ts.map */*.d.ts",
+        "clean": "rimraf dist",
         "clean:deps": "rimraf package-lock.json node_modules",
         "clean:all": "npm run clean && npm run clean:deps",
         "tsc": "tsc",
         "version:build": "ngv -e \"echo $GIT_VERSION > version.bak\"",
+        "generate:proto": "proto-loader-gen-types --grpcLib=@grpc/grpc-js --outDir=src/proto/ ../pdfPrint.proto",
         "lint": "eslint src/**/*.ts"
     },
     "engines": {
@@ -33,11 +33,15 @@
     "homepage": "https://github.com/ressurectit/RessurectIT.Pdf.Print",
     "dependencies": {
         "pdf-to-printer": "5.2.0",
+        "portfinder": "1.0.28",
+        "@grpc/proto-loader": "0.6.9",
+        "@grpc/grpc-js": "1.5.3",
         "tslib": "2.3.1"
     },
     "devDependencies": {
         "@types/node": "^14.14.31",
         "@jscrpt/common": "2.2.0",
+        "ts-protoc-gen": "0.15.0",
         "eslint": "7.32.0",
         "@typescript-eslint/eslint-plugin": "4.33.0",
         "@typescript-eslint/parser": "4.33.0",
