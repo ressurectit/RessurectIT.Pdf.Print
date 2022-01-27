@@ -1,9 +1,9 @@
 ﻿namespace RessurectIT.Pdf.Print.Dto;
 
 /// <summary>
-/// Definition of printer
+/// Basic info about printer
 /// </summary>
-public class Printer
+public class PrinterDto
 {
     #region public properties
 
