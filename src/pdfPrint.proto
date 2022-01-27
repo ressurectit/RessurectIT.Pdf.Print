@@ -1,31 +1,62 @@
 syntax = "proto3";
 
+/**
+ * Represents empty request or response
+ */
 message Empty 
 {
-
 }
 
+/**
+ * Basic info about printer
+ */
 message Printer
 {
+    /**
+     * Id of printer
+     */
     string deviceId = 1;
+
+    /**
+     * Name of printer
+     */
     string name = 2;
+
+    /**
+     * Indication whether is printer null
+     */
+    bool null = 3;
 }
 
+/**
+ * Holds all available printers
+ */
 message AvailablePrinters
 {
+    /**
+     * Array of all available printers
+     */
     repeated Printer printers = 1;
 }
 
-message PrintError
-{
-    string message = 1;
-}
-
+/**
+ * Request storing information about what should be printed
+ */
 message PrintRequest
 {
-    string printer = 1;
-    string pages = 2;
-    string subset = 3;
+    string pdfPath = 1;
+    string printer = 2;
+    string pages = 3;
+    string subset = 4;
+    string orientation = 5;
+    string scale = 6;
+    bool monochrome = 7;
+    string side = 8;
+    string bin = 9;
+    string paperSize = 10;
+    bool silent = 11;
+    bool printDialog = 12;
+    int32 copies = 13;
 }
 
 /**
@@ -33,10 +64,19 @@ message PrintRequest
  */
 service PrintService
 {
+    /**
+     * Gets array of all available printers
+     */
     rpc GetPrinters(Empty) returns (AvailablePrinters);
 
+    /**
+     * Gets default printer or null if no default printer
+     */
     rpc GetDefaultPrinter(Empty) returns (Printer);
 
-    rpc Print(stream PrintRequest) returns (stream PrintError);
+    /**
+     * Runs print of pdf document
+     */
+    rpc Print(PrintRequest) returns (Empty);
 }
   

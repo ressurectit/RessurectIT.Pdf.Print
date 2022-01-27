@@ -1,51 +1,20 @@
-import {loadPackageDefinition, sendUnaryData, Server, ServerCredentials, ServerDuplexStream, ServerUnaryCall, UntypedHandleCall} from '@grpc/grpc-js';
+import {loadPackageDefinition, sendUnaryData, Server, ServerCredentials, ServerUnaryCall, UntypedHandleCall} from '@grpc/grpc-js';
 import {loadSync} from '@grpc/proto-loader';
-import {getDefaultPrinter, getPrinters} from 'pdf-to-printer';
+import {Status} from '@grpc/grpc-js/build/src/constants';
+import {getDefaultPrinter, getPrinters, print} from 'pdf-to-printer';
 import path from 'path';
 import portfinder from 'portfinder';
 
 import {AvailablePrinters} from './proto/AvailablePrinters';
-import {Empty__Output} from './proto/Empty';
+import {Empty, Empty__Output} from './proto/Empty';
 import {ProtoGrpcType} from './proto/pdfPrint';
 import {Printer} from './proto/Printer';
-import {PrintError} from './proto/PrintError';
-import {PrintRequest__Output} from './proto/PrintRequest';
+import {PrintRequest} from './proto/PrintRequest';
 import {PrintServiceHandlers} from './proto/PrintService';
 
 const PROTO_PATH = path.join(__dirname, 'pdfPrint.proto');
 const packageDefinition = loadSync(PROTO_PATH);
 const printPdfProto: ProtoGrpcType = loadPackageDefinition(packageDefinition) as unknown as ProtoGrpcType;
-
-
-// /**
-//  * Implements the SayHello RPC method.
-//  */
-// var sayHello: handleUnaryCall<HelloRequest, HelloReply> = function (call, callback) {
-//   console.log(`volam ${JSON.stringify(call)}`)
-//   callback(null, {message: `Hello ${call.request.name} Zarka`});
-// }
-
-// var sayHelloStreamReq: handleClientStreamingCall<HelloRequest, HelloReply> = function (call, callback)
-// {
-//   console.log(`volam stream req`, call);
-//   console.log(`deadline`, call.getDeadline());
-
-//   var data = [];
-
-//   // call.on('close', () => console.log('zatvorene'));
-//   call.on('end', () => 
-//   { 
-//     console.log('koniec')
-
-//     callback(null, {message: data.join(', ')});
-//   });
-//   call.on('data', (req: HelloRequest) =>
-//   {
-//     console.log('data', req);
-//     data.push(req.name);
-//   })
-
-// };
 
 class PrintService implements PrintServiceHandlers
 {
@@ -59,41 +28,98 @@ class PrintService implements PrintServiceHandlers
     //######################### public methods - implementation of PrintServiceHandlers #########################
     
     /**
-     * 
-     * @param call -
-     * @param callback -
+     * Gets default printer or null if no default printer
+     * @param call - Call containing request data
+     * @param callback - Callback used for returning data
      */
-    public async GetDefaultPrinter(_call: ServerUnaryCall<Empty__Output, Printer>, callback: sendUnaryData<Printer>): Promise<void>
+    public async GetDefaultPrinter(_call: ServerUnaryCall<Empty, Printer>, callback: sendUnaryData<Printer>): Promise<void>
     {
-        const defPrinter = await getDefaultPrinter();
-
-        callback(null, defPrinter);
-    }
-
-    /**
-     * 
-     * @param call -
-     * @param callback -
-     */
-    public async GetPrinters(_call: ServerUnaryCall<Empty__Output, AvailablePrinters>, callback: sendUnaryData<AvailablePrinters>): Promise<void>
-    {
-        const printers = await getPrinters();
-
-        const result: AvailablePrinters =
+        try
         {
-            printers
-        };
+            const defPrinter = await getDefaultPrinter();
+    
+            callback(null, defPrinter);
+        }
+        catch(e)
+        {
+            callback(
+            {
+                code: Status.INTERNAL,
+                message: `Getting default printer failed: ${e}`
+            });
 
-        callback(null, result);
+            return;
+        }
     }
 
     /**
-     * 
-     * @param call -
+     * Gets array of all available printers
+     * @param call - Call containing request data
+     * @param callback - Callback used for returning data
      */
-    public Print(_call: ServerDuplexStream<PrintRequest__Output, PrintError>)
+    public async GetPrinters(_call: ServerUnaryCall<Empty, AvailablePrinters>, callback: sendUnaryData<AvailablePrinters>): Promise<void>
     {
+        try
+        {
+            const printers = await getPrinters();
 
+            const result: AvailablePrinters =
+            {
+                printers
+            };
+    
+            callback(null, result);
+        }
+        catch(e)
+        {
+            callback(
+            {
+                code: Status.INTERNAL,
+                message: `Getting available printers failed: ${e}`
+            });
+
+            return;
+        }
+    }
+
+    /**
+     * Runs print of pdf document
+     * @param call - Call containing request data
+     * @param callback - Callback used for returning data
+     */
+    public async Print(call: ServerUnaryCall<PrintRequest, Empty__Output>, callback: sendUnaryData<Empty__Output>): Promise<void>
+    {
+        const pdf = call.request.pdfPath;
+
+        if(!pdf)
+        {
+            callback(
+            {
+                code: Status.INVALID_ARGUMENT,
+                message: 'Missing path to PDF'
+            });
+
+            return;
+        }
+
+        delete call.request.pdfPath;
+
+        try
+        {
+            await print(pdf, call.request);
+        }
+        catch(e)
+        {
+            callback(
+            {
+                code: Status.INTERNAL,
+                message: `Printing failed: ${e}`
+            });
+
+            return;
+        }
+
+        callback(null, {});
     }
 }
 
