@@ -3,6 +3,7 @@ import {loadSync} from '@grpc/proto-loader';
 import {Status} from '@grpc/grpc-js/build/src/constants';
 import {getDefaultPrinter, getPrinters, print} from 'pdf-to-printer';
 import path from 'path';
+import fs from 'fs';
 import portfinder from 'portfinder';
 
 import {AvailablePrinters} from './proto/AvailablePrinters';
@@ -11,8 +12,12 @@ import {ProtoGrpcType} from './proto/pdfPrint';
 import {Printer} from './proto/Printer';
 import {PrintRequest} from './proto/PrintRequest';
 import {PrintServiceHandlers} from './proto/PrintService';
+import pdfProto from './proto/pdfPrint.proto';
 
 const PROTO_PATH = path.join(__dirname, 'pdfPrint.proto');
+
+fs.writeFileSync(PROTO_PATH, pdfProto, {encoding: 'utf8'});
+
 const packageDefinition = loadSync(PROTO_PATH);
 const printPdfProto: ProtoGrpcType = loadPackageDefinition(packageDefinition) as unknown as ProtoGrpcType;
 
@@ -130,14 +135,14 @@ portfinder.getPort({}, (err, port) =>
 {
     if(err)
     {
-        console.log(`PORT INIT ERROR: ${err}`);
+        console.error(`PORT INIT ERROR: ${err}`);
 
         return;
     }
 
     if(!port)
     {
-        console.log('PORT INIT ERROR: unable to find any port!');
+        console.error('PORT INIT ERROR: unable to find any port!');
 
         return;
     }

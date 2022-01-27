@@ -14,6 +14,7 @@
         <Configurations>Debug;Release;DebugInstaller;ReleaseInstaller</Configurations>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <PublishTrimmed>false</PublishTrimmed>
         <InvariantGlobalization>true</InvariantGlobalization>

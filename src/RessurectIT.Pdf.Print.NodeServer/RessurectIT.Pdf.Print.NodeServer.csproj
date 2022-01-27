@@ -1,0 +1,63 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <!-- BASIC INFO -->
+    <PropertyGroup>
+        <AssemblyName>RessurectIT.Pdf.Print.NodeServer</AssemblyName>
+        <Description>ResurectIT PDF print node server - wrapper around nodeJS GRPC server allowing printing to PDF</Description>
+        <RootNamespace>RessurectIT.Pdf.Print</RootNamespace>
+    </PropertyGroup>
+
+    <!-- ADDITIONAL VARIABLES -->
+    <PropertyGroup>
+        <GrpcNodePrintServerProjectDir>$(ProjectDir)../RessurectIT.Pdf.Print.NodeServer.Node/</GrpcNodePrintServerProjectDir>
+    </PropertyGroup>
+
+    <!-- BUILD OPTIONS -->
+    <PropertyGroup>
+    </PropertyGroup>
+
+    <!-- FRAMEWORK -->
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+
+    <!-- FILES -->
+    <ItemGroup>
+        <EmbeddedResource Include="$(GrpcNodePrintServerProjectDir)dist/**/*.js" Visible="false" />
+        <EmbeddedResource Include="$(GrpcNodePrintServerProjectDir)dist/node_modules.zip" Visible="false" />
+        <None Include="version.bak" Visible="false" />
+    </ItemGroup>
+
+    <!-- NUGET DEPENDENCIES -->
+    <ItemGroup>
+        <PackageReference Include="RessurectIT.Git.Version" Version="$(RessurectITGitVersion)" PrivateAssets="All" />
+    </ItemGroup>
+
+    <!-- PROJECT REFERENCES -->
+    <ItemGroup>
+    </ItemGroup>
+
+    <!-- EXPORT VERSION NUMBER -->
+    <Target Name="ExportVersion" AfterTargets="GenerateGitVersion" BeforeTargets="Build">
+        <Exec Command="echo $(Version) &gt; $(ProjectDir)\version.bak" />
+    </Target>
+
+    <!-- EXPORT VERSION NUMBER -->
+    <Target Name="PrepareJsServer" BeforeTargets="GenerateAdditionalSources" Condition="'$(Configuration)' == 'DebugInstaller' Or '$(Configuration)' == 'ReleaseInstaller'">
+        <!-- install all dependencies -->
+        <Exec Command="npm install" Condition="!Exists('$(GrpcNodePrintServerProjectDir)node_modules/rimraf')" WorkingDirectory="$(GrpcNodePrintServerProjectDir)" />
+        <!-- clean compiled files -->
+        <Exec Command="npm run clean" WorkingDirectory="$(GrpcNodePrintServerProjectDir)" />
+        <!-- generate proto typescript files -->
+        <Exec Command="npm run generate:proto" WorkingDirectory="$(GrpcNodePrintServerProjectDir)" />
+        <!-- generate proto.ts file -->
+        <Exec Command="node generate.proto-ts.js" WorkingDirectory="$(GrpcNodePrintServerProjectDir)" />
+        <!-- build new output -->
+        <Exec Command="npm run build" WorkingDirectory="$(GrpcNodePrintServerProjectDir)" />
+        <!-- removes node_modules -->
+        <RemoveDir Directories="$(GrpcNodePrintServerProjectDir)node_modules" />
+        <!-- install runtime dependencies -->
+        <Exec Command="npm install --only=prod" WorkingDirectory="$(GrpcNodePrintServerProjectDir)" />
+        <!-- create node_modules zip -->
+        <Exec Command="powershell Compress-Archive -Path &quot;$(GrpcNodePrintServerProjectDir)/node_modules&quot; -DestinationPath &quot;$(GrpcNodePrintServerProjectDir)/dist/node_modules.zip&quot;" />
+    </Target>
+</Project>

@@ -1,21 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <!-- BASIC INFO -->
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>net6.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <!-- PROJECT REFERENCES -->
     <ItemGroup>
-        <Protobuf Include="$(ProjectDir)../pdfPrint.proto" GrpcServices="Client" />
-    </ItemGroup>
-
-
-    <ItemGroup>
-        <PackageReference Include="Grpc.Net.Client" Version="2.42.0" />
-        <PackageReference Include="Google.Protobuf" Version="3.19.3" />
-        
-        <PackageReference Include="Grpc.Tools" Version="2.43.0" PrivateAssets="All" />
+        <ProjectReference Include="..\RessurectIT.Pdf.Print\RessurectIT.Pdf.Print.csproj" />
     </ItemGroup>
 </Project>
+

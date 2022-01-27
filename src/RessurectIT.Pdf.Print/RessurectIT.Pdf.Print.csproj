@@ -1,7 +1,35 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <!-- BASIC INFO -->
+    <PropertyGroup>
+        <AssemblyName>RessurectIT.Pdf.Print</AssemblyName>
+        <Description>ResurectIT PDF printing API</Description>
+        <RootNamespace>RessurectIT.Pdf.Print</RootNamespace>
+    </PropertyGroup>
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
+    <!-- BUILD OPTIONS -->
+    <PropertyGroup>
+    </PropertyGroup>
 
+    <!-- FRAMEWORK -->
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+
+    <!-- FILES -->
+    <ItemGroup>
+        <Protobuf Include="$(ProjectDir)../pdfPrint.proto" GrpcServices="Client" />
+    </ItemGroup>
+
+    <!-- NUGET DEPENDENCIES -->
+    <ItemGroup>
+        <PackageReference Include="Grpc.Net.Client" Version="$(GrpcNetClient)" />
+        <PackageReference Include="Google.Protobuf" Version="$(GoogleProtobuf)" />
+        <PackageReference Include="Grpc.Tools" Version="$(GrpcTools)" PrivateAssets="All" />
+        <PackageReference Include="RessurectIT.Git.Version" Version="$(RessurectITGitVersion)" PrivateAssets="All" />
+    </ItemGroup>
+
+    <!-- PROJECT REFERENCES -->
+    <ItemGroup>
+        <ProjectReference Include="..\RessurectIT.Pdf.Print.NodeServer\RessurectIT.Pdf.Print.NodeServer.csproj" />
+    </ItemGroup>
 </Project>
