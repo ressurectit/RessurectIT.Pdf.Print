@@ -8,6 +8,9 @@ namespace RessurectIT.Pdf.Print;
 //TODO: logging
 //TODO: handle stderr
 //TODO: handle unresponsivity
+//TODO: grpc client comments fix
+//TODO: Jering.Javascript.NodeJS possible use of
+//TODO: code signing, regenerate
 
 /// <summary>
 /// gRPC node print server instance

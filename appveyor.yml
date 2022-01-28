@@ -3,6 +3,11 @@ image: Visual Studio 2022
 environment:
   nodejs_version: "LTS"
 
+branches:
+  only:
+    - /^\d+\.\d+/
+    - /^v\d+\.\d+\.\d+/
+
 init:
   - ps: |
       Install-Product node $env:nodejs_version
@@ -19,13 +24,15 @@ test: off
 
 build_script:
   - ps: |
+      $env:NGV_BUILD_NUMBER = $env:APPVEYOR_BUILD_NUMBER
+
       #stable version build
       if($env:APPVEYOR_REPO_TAG -eq "true")
       {
         $env:APPVEYOR_REPO_TAG_NAME -match "^v(\d+\.\d+)\.\d+"
         git checkout "$($Matches[1])" -q
 
-        ./.utils/build.bat Release $env:pfx_secret
+        ./.utils/pack.bat Release $env:pfx_secret
 
         #release on github
         $match = [System.Text.RegularExpressions.Regex]::Match((Get-Content "./changelog.md" -Encoding UTF8 | Out-String).TrimEnd(), "## Version \d+\.\d+\.\d+ (?<date>\(\d+-\d+-\d+\))(?<content>.*?)(?:## Version|`$)", [System.Text.RegularExpressions.RegexOptions]::Singleline)
@@ -37,9 +44,9 @@ build_script:
       {
         git checkout $env:APPVEYOR_REPO_BRANCH -q
 
-        ./.utils/build.bat Debug
+        ./.utils/pack.bat Debug
       }
-  - ps: Update-AppveyorBuild -Version "$(cat src/RessurectIT.Pdf.Print/version.bak)"
+  - ps: Update-AppveyorBuild -Version "$(cat src/RessurectIT.Pdf.Print.NodeServer/version.bak)"
 
 
 artifacts:

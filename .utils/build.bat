@@ -1,1 +1,2 @@
-@CALL msbuild %~dp0..\RessurectIT.Pdf.Print.sln /t:Build /p:"Configuration=%~1Installer";"Platform=Any CPU";"signpassword=%~2"
+@CALL dotnet restore
+@CALL msbuild %~dp0..\RessurectIT.Pdf.Print.sln /t:Build /p:"Configuration=%~1Installer";"Platform=Any CPU"
