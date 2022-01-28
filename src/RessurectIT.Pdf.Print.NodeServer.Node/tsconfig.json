@@ -21,7 +21,7 @@
         "importHelpers": true,
         "newLine": "lf",
         "rootDir": "src",
-        "outDir": "dist",
+        "outDir": "../RessurectIT.Pdf.Print.NodeServer/dist",
         "lib":
         [
             "es2020"

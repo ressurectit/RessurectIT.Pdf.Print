@@ -22,8 +22,8 @@
 
     <!-- FILES -->
     <ItemGroup>
-        <EmbeddedResource Include="$(GrpcNodePrintServerProjectDir)dist/**/*.js" Visible="false" />
-        <EmbeddedResource Include="$(GrpcNodePrintServerProjectDir)dist/node_modules.zip" Visible="false" />
+        <EmbeddedResource Include="**/*.js" Visible="false" />
+        <EmbeddedResource Include="dist/node_modules.zip" Visible="false" />
         <None Include="version.bak" Visible="false" />
         <None Include="$(ProjectDir)../../LICENSE" Pack="true" PackagePath=""/>
     </ItemGroup>
@@ -84,6 +84,6 @@
         <!-- install runtime dependencies -->
         <Exec Command="npm install --only=prod --loglevel error" WorkingDirectory="$(GrpcNodePrintServerProjectDir)" />
         <!-- create node_modules zip -->
-        <Exec Command="powershell Compress-Archive -Path &quot;$(GrpcNodePrintServerProjectDir)node_modules&quot; -DestinationPath &quot;$(GrpcNodePrintServerProjectDir)dist/node_modules.zip&quot;" />
+        <Exec Command="powershell Compress-Archive -Path &quot;$(GrpcNodePrintServerProjectDir)node_modules&quot; -DestinationPath &quot;$(ProjectDir)dist/node_modules.zip&quot;" />
     </Target>
 </Project>

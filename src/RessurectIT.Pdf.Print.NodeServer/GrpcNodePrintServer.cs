@@ -11,6 +11,7 @@ namespace RessurectIT.Pdf.Print;
 //TODO: grpc client comments fix
 //TODO: Jering.Javascript.NodeJS possible use of
 //TODO: code signing, regenerate
+//TODO: readme.md for each project for nuget
 
 /// <summary>
 /// gRPC node print server instance

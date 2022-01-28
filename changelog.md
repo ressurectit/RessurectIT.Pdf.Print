@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 1.0.1 (2022-01-28)
+
+### Bug Fixes
+
+- `RessurectIT.Pdf.Print.NodeServer`
+    - now correctly embeds all `.js` resources
+
 ## Version 1.0.0 (2022-01-28)
 
 ### Features

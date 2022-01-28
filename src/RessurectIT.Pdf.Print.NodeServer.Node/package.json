@@ -4,7 +4,7 @@
     "description": "NodeJS server that enables usage of pdf-to-printer using gRPC",
     "scripts": {
         "build": "tsc",
-        "clean": "rimraf dist src/proto",
+        "clean": "rimraf ../RessurectIT.Pdf.Print.NodeServer/dist src/proto",
         "clean:deps": "rimraf package-lock.json node_modules",
         "clean:all": "npm run clean && npm run clean:deps",
         "tsc": "tsc",
