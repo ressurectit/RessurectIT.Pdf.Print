@@ -23,7 +23,7 @@ public class GrpcNodePrintServer : IDisposable
     /// <summary>
     /// Name of embedded resources prefix
     /// </summary>
-    private const string AssemblyResourcePrefix = "RessurectIT.Pdf.Print.";
+    private const string AssemblyResourcePrefix = "RessurectIT.Pdf.Print.dist.";
 
     /// <summary>
     /// Name of embedded resources proto prefix

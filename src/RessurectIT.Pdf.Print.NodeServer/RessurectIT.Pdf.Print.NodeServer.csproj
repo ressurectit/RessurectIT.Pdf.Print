@@ -22,7 +22,7 @@
 
     <!-- FILES -->
     <ItemGroup>
-        <EmbeddedResource Include="**/*.js" Visible="false" />
+        <EmbeddedResource Include="dist/**/*.js" Visible="false" />
         <EmbeddedResource Include="dist/node_modules.zip" Visible="false" />
         <None Include="version.bak" Visible="false" />
         <None Include="$(ProjectDir)../../LICENSE" Pack="true" PackagePath=""/>
