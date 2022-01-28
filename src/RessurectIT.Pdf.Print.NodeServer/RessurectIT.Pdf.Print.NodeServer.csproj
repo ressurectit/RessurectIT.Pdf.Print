@@ -25,7 +25,7 @@
         <EmbeddedResource Include="$(GrpcNodePrintServerProjectDir)dist/**/*.js" Visible="false" />
         <EmbeddedResource Include="$(GrpcNodePrintServerProjectDir)dist/node_modules.zip" Visible="false" />
         <None Include="version.bak" Visible="false" />
-        <None Include="$(ProjectDir)../../LICENSE" Pack="true" PackagePath="LICENSE"/>
+        <None Include="$(ProjectDir)../../LICENSE" Pack="true" PackagePath=""/>
     </ItemGroup>
 
     <!-- PACKAGING -->

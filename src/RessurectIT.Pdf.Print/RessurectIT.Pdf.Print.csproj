@@ -18,7 +18,7 @@
     <!-- FILES -->
     <ItemGroup>
         <Protobuf Include="$(ProjectDir)../pdfPrint.proto" GrpcServices="Client" />
-        <None Include="$(ProjectDir)../../LICENSE" Pack="true" PackagePath="LICENSE"/>
+        <None Include="$(ProjectDir)../../LICENSE" Pack="true" PackagePath=""/>
     </ItemGroup>
 
     <!-- PACKAGING -->
