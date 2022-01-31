@@ -119,3 +119,57 @@ public class PrintOptions
     }
     #endregion
 }
+
+/// <summary>
+/// Request storing information about what should be printed with updated enums to strings
+/// </summary>
+internal class PrintOptionsNode : PrintOptions
+{
+    #region public properties
+
+    /// <summary>
+    /// Will print odd pages only when value is odd. Will print even pages only when even.
+    /// </summary>
+    public new string? Subset
+    {
+        get;
+        set;
+    }
+
+    /// <summary>
+    /// Can provide 90-degree rotation of contents (NOT the rotation of paper which must be pre-set by the choice of printer defaults).
+    /// </summary>
+    public new string? Orientation
+    {
+        get;
+        set;
+    }
+
+    /// <summary>
+    /// Supported names noscale, shrink and fit.
+    /// </summary>
+    public new string? Scale
+    {
+        get;
+        set;
+    }
+
+    /// <summary>
+    /// Supported names duplex, duplexshort, duplexlong and simplex.
+    /// </summary>
+    public new string? Side
+    {
+        get;
+        set;
+    }
+
+    /// <summary>
+    /// Specifies the paper size. Supported names A2, A3, A4, A5, A6, letter, legal, tabloid, statement.
+    /// </summary>
+    public new string? PaperSize
+    {
+        get;
+        set;
+    }
+    #endregion
+}

@@ -1,5 +1,22 @@
 # Changelog
 
+## Version 2.0.0 (2022-01-31)
+
+### BREAKING CHANGES
+
+- project no longer using *gRPC* for communication with *Node*, instead `Jering.Javascript.NodeJS` is used
+- `RessurectIT.Pdf.Print.NodeServer.Node`
+    - `index.js` exports previous RPC methods as module methods
+    - removed `AvailablePrinters` dto, now returns array of printers
+    - new `print` method have two parameters same as `pdf-to-printer`
+- `RessurectIT.Pdf.Print.NodeServer`
+    - c# wrapper around nodejs server `NodePdfPrintServer`
+        - extracts node files
+        - configure node process
+- `RessurectIT.Pdf.Print`
+    - c# node client used as c# `PdfPrintServer` implementing `IPdfPrintServer`
+        - removed `Running` property, removed `Start`, `Stop` methods
+
 ## Version 1.0.1 (2022-01-28)
 
 ### Bug Fixes

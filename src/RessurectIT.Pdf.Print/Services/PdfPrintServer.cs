@@ -1,11 +1,8 @@
-﻿using Grpc.Net.Client;
+﻿using Jering.Javascript.NodeJS;
 using RessurectIT.Pdf.Print.Api;
 using RessurectIT.Pdf.Print.Dto;
 
 namespace RessurectIT.Pdf.Print.Services;
-
-//TODO: handle multiple stop calls
-//TODO: handle null default printer, also in JS
 
 /// <summary>
 /// Class that represents pdf print server
@@ -17,28 +14,12 @@ public class PdfPrintServer : IPdfPrintServer, IDisposable
     /// <summary>
     /// Instance of gRPC node print server
     /// </summary>
-    private readonly GrpcNodePrintServer _printServer;
+    private readonly NodePdfPrintServer _printServer;
 
     /// <summary>
-    /// Instance of gRPC channel
+    /// Path to index.js file
     /// </summary>
-    private GrpcChannel? _grpcChannel;
-
-    /// <summary>
-    /// Instance of gRPC client
-    /// </summary>
-    private PrintService.PrintServiceClient? _client;
-    #endregion
-
-
-    #region public properties - Implementation of IPdfPrintServer
-
-    /// <inheritdoc />
-    public bool Running
-    {
-        get;
-        private set;
-    }
+    private readonly string _indexPath;
     #endregion
 
 
@@ -49,7 +30,8 @@ public class PdfPrintServer : IPdfPrintServer, IDisposable
     /// </summary>
     public PdfPrintServer()
     {
-        _printServer = new GrpcNodePrintServer();
+        _printServer = new NodePdfPrintServer();
+        _indexPath = Path.Combine(_printServer.NodeServerFilesDir, "index.js");
     }
 
     /// <summary>
@@ -58,7 +40,8 @@ public class PdfPrintServer : IPdfPrintServer, IDisposable
     /// <param name="nodeJsPath">Path to 'node' that will be used for running gRPC server</param>
     public PdfPrintServer(string nodeJsPath)
     {
-        _printServer = new GrpcNodePrintServer(nodeJsPath);
+        _printServer = new NodePdfPrintServer(nodeJsPath);
+        _indexPath = Path.Combine(_printServer.NodeServerFilesDir, "index.js");
     }
     #endregion
 
@@ -66,90 +49,21 @@ public class PdfPrintServer : IPdfPrintServer, IDisposable
     #region public methods - Implementation of IPdfPrintServer
 
     /// <inheritdoc />
-    public async Task Start()
+    public Printer[] GetPrinters()
     {
-        int port = await _printServer.Start();
-
-        _grpcChannel = GrpcChannel.ForAddress($"http://127.0.0.1:{port}");
-        _client = new PrintService.PrintServiceClient(_grpcChannel);
-
-        Running = true;
+        return StaticNodeJSService.InvokeFromFileAsync<Printer[]>(_indexPath, "getPrinters").Result ?? Array.Empty<Printer>();
     }
 
     /// <inheritdoc />
-    public async Task Stop()
+    public Printer? GetDefaultPrinter()
     {
-        Running = false;
-
-        if (_grpcChannel != null)
-        {
-            await _grpcChannel.ShutdownAsync();
-            _grpcChannel.Dispose();
-        }
-
-        _client = null;
-        _printServer.Stop();
-    }
-
-    /// <inheritdoc />
-    public AvailablePrintersDto GetPrinters()
-    {
-        if (!Running)
-        {
-            throw new InvalidOperationException("GetPrinters must be called after server was started");
-        }
-
-        AvailablePrinters? printers = _client?.GetPrinters(new Empty());
-
-        if (printers == null)
-        {
-            return new AvailablePrintersDto();
-        }
-
-        return new AvailablePrintersDto
-        {
-            Printers = printers.Printers.Select(itm => new PrinterDto
-            {
-                DeviceId = itm.DeviceId,
-                Name = itm.Name
-            }).ToArray()
-        };
-    }
-
-    /// <inheritdoc />
-    public PrinterDto? GetDefaultPrinter()
-    {
-        if (!Running)
-        {
-            throw new InvalidOperationException("GetDefaultPrinter must be called after server was started");
-        }
-
-        Printer? printer = _client?.GetDefaultPrinter(new Empty());
-
-        if (printer == null)
-        {
-            return null;
-        }
-
-        return new PrinterDto
-        {
-            DeviceId = printer.DeviceId,
-            Name = printer.Name
-        };
+        return StaticNodeJSService.InvokeFromFileAsync<Printer>(_indexPath, "getDefaultPrinter").Result;
     }
 
     /// <inheritdoc />
     public void Print(string pdfPath, PrintOptions? options)
     {
-        if (!Running)
-        {
-            throw new InvalidOperationException("Print must be called after server was started");
-        }
-
-        PrintRequest request = new PrintRequest
-        {
-            PdfPath = pdfPath
-        };
+        PrintOptionsNode request = new PrintOptionsNode();
 
         if (options != null)
         {
@@ -214,17 +128,12 @@ public class PdfPrintServer : IPdfPrintServer, IDisposable
             }
         }
 
-        _client?.Print(request);
+        StaticNodeJSService.InvokeFromFileAsync(_indexPath, "print", new object[]{pdfPath, request}).Wait();
     }
 
     /// <inheritdoc />
     public void Print(string pdfPath)
     {
-        if (!Running)
-        {
-            throw new InvalidOperationException("Print must be called after server was started");
-        }
-
         Print(pdfPath, null);
     }
     #endregion
@@ -236,7 +145,6 @@ public class PdfPrintServer : IPdfPrintServer, IDisposable
     public void Dispose()
     {
         _printServer.Dispose();
-        _grpcChannel?.Dispose();
     }
     #endregion
 }

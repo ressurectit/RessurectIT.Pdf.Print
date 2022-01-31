@@ -17,7 +17,6 @@
 
     <!-- FILES -->
     <ItemGroup>
-        <Protobuf Include="$(ProjectDir)../pdfPrint.proto" GrpcServices="Client" />
         <None Include="$(ProjectDir)../../LICENSE" Pack="true" PackagePath=""/>
     </ItemGroup>
 
@@ -27,16 +26,13 @@
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
 
         <PackageReleaseNotes>
-            - c# gRPC client used as c# `PdfPrintServer` implementing `IPdfPrintServer`
-                - allows starting of gRPC client and calling methods `Print`, `GetDefaultPrinter`, `GetPrinters`
-            - added strongly typed classes and enums as DTO `AvailablePrintersDto`, `PrinterDto`, `PrintOptions`, `PrintOrientation`, `PrintPaperSize`, `PrintScale`, `PrintSide`, `PrintSubset`
+            - c# node client used as c# `PdfPrintServer` implementing `IPdfPrintServer`
+                - removed `Running` property, removed `Start`, `Stop` methods
         </PackageReleaseNotes>
     </PropertyGroup>
     <!-- NUGET DEPENDENCIES -->
     <ItemGroup>
-        <PackageReference Include="Grpc.Net.Client" Version="$(GrpcNetClient)" />
-        <PackageReference Include="Google.Protobuf" Version="$(GoogleProtobuf)" />
-        <PackageReference Include="Grpc.Tools" Version="$(GrpcTools)" PrivateAssets="All" />
+        <PackageReference Include="Jering.Javascript.NodeJS" Version="$(JeringJavascriptNodeJS)" />
         <PackageReference Include="RessurectIT.Git.Version" Version="$(RessurectITGitVersion)" PrivateAssets="All" />
         <PackageReference Include="RessurectIT.NuGet.Deployment" Version="$(RessurectITNuGetDeployment)" PrivateAssets="All" />
     </ItemGroup>

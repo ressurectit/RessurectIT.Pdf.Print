@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <!-- BASIC INFO -->
     <PropertyGroup>
         <AssemblyName>RessurectIT.Pdf.Print.NodeServer</AssemblyName>
@@ -8,7 +8,7 @@
 
     <!-- ADDITIONAL VARIABLES -->
     <PropertyGroup>
-        <GrpcNodePrintServerProjectDir>$(ProjectDir)../RessurectIT.Pdf.Print.NodeServer.Node/</GrpcNodePrintServerProjectDir>
+        <NodePrintServerProjectDir>$(ProjectDir)../RessurectIT.Pdf.Print.NodeServer.Node/</NodePrintServerProjectDir>
     </PropertyGroup>
 
     <!-- BUILD OPTIONS -->
@@ -23,44 +23,26 @@
     <!-- FILES -->
     <ItemGroup>
         <EmbeddedResource Include="dist/index.js" Visible="false" />
-        <EmbeddedResource Include="dist/proto/AvailablePrinters.js" Visible="false" />
-        <EmbeddedResource Include="dist/proto/Empty.js" Visible="false" />
-        <EmbeddedResource Include="dist/proto/pdfPrint.js" Visible="false" />
-        <EmbeddedResource Include="dist/proto/pdfPrint.proto.js" Visible="false" />
-        <EmbeddedResource Include="dist/proto/Printer.js" Visible="false" />
-        <EmbeddedResource Include="dist/proto/PrintRequest.js" Visible="false" />
-        <EmbeddedResource Include="dist/proto/PrintService.js" Visible="false" />
         <EmbeddedResource Include="dist/node_modules.zip" Visible="false" />
         <None Include="version.bak" Visible="false" />
-        <None Include="$(ProjectDir)../../LICENSE" Pack="true" PackagePath=""/>
+        <None Include="$(ProjectDir)../../LICENSE" Pack="true" PackagePath="" />
     </ItemGroup>
 
     <!-- PACKAGING -->
     <PropertyGroup>
-        <PackageTags>node;print;pdf;grpc;server</PackageTags>
+        <PackageTags>node;print;pdf;server</PackageTags>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
 
         <PackageReleaseNotes>
-            - node js gRPC server
-            - gRPC `PrintService`
-                - available RPC method `Print` allows printing of PDF
-                - available RPC method `GetPrinters` allows obtaining all available printers
-                - available RPC method `GetDefaultPrinter` allows obtaining default printer
-            - gRPC messages
-                - `Empty` represents empty request or response
-                - `Printer` basic info about printer
-                    - `deviceId` - id of printer
-                    - `name` - name of printer
-                - `AvailablePrinters` holds all available printers
-                    - `printers` - array of all available printers
-                - `PrintRequest` request storing information about what should be printed
-                    - `pdfPath` - path to PDF file
-                    - rest of parameters are from `pdf-to-printer` npm package
+            - c# wrapper around nodejs server `NodePdfPrintServer`
+                - extracts node files
+                - configure node process
         </PackageReleaseNotes>
     </PropertyGroup>
 
     <!-- NUGET DEPENDENCIES -->
     <ItemGroup>
+        <PackageReference Include="Jering.Javascript.NodeJS" Version="$(JeringJavascriptNodeJS)" />
         <PackageReference Include="RessurectIT.Git.Version" Version="$(RessurectITGitVersion)" PrivateAssets="All" />
         <PackageReference Include="RessurectIT.NuGet.Deployment" Version="$(RessurectITNuGetDeployment)" PrivateAssets="All" />
     </ItemGroup>
@@ -77,20 +59,16 @@
     <!-- EXPORT VERSION NUMBER -->
     <Target Name="PrepareJsServer" BeforeTargets="GenerateAdditionalSources" Condition="'$(Configuration)' == 'DebugInstaller' Or '$(Configuration)' == 'ReleaseInstaller'">
         <!-- install all dependencies -->
-        <Exec Command="npm install --loglevel error" Condition="!Exists('$(GrpcNodePrintServerProjectDir)node_modules/rimraf')" WorkingDirectory="$(GrpcNodePrintServerProjectDir)" />
+        <Exec Command="npm install --loglevel error" Condition="!Exists('$(NodePrintServerProjectDir)node_modules/rimraf')" WorkingDirectory="$(NodePrintServerProjectDir)" />
         <!-- clean compiled files -->
-        <Exec Command="npm run clean" WorkingDirectory="$(GrpcNodePrintServerProjectDir)" />
-        <!-- generate proto typescript files -->
-        <Exec Command="npm run generate:proto" WorkingDirectory="$(GrpcNodePrintServerProjectDir)" />
-        <!-- generate proto.ts file -->
-        <Exec Command="node generate.proto-ts.js" WorkingDirectory="$(GrpcNodePrintServerProjectDir)" />
+        <Exec Command="npm run clean" WorkingDirectory="$(NodePrintServerProjectDir)" />
         <!-- build new output -->
-        <Exec Command="npm run build" WorkingDirectory="$(GrpcNodePrintServerProjectDir)" />
+        <Exec Command="npm run build" WorkingDirectory="$(NodePrintServerProjectDir)" />
         <!-- removes node_modules -->
-        <RemoveDir Directories="$(GrpcNodePrintServerProjectDir)node_modules" />
+        <RemoveDir Directories="$(NodePrintServerProjectDir)node_modules" />
         <!-- install runtime dependencies -->
-        <Exec Command="npm install --only=prod --loglevel error" WorkingDirectory="$(GrpcNodePrintServerProjectDir)" />
+        <Exec Command="npm install --only=prod --loglevel error" WorkingDirectory="$(NodePrintServerProjectDir)" />
         <!-- create node_modules zip -->
-        <Exec Command="powershell Compress-Archive -Path &quot;$(GrpcNodePrintServerProjectDir)node_modules&quot; -DestinationPath &quot;$(ProjectDir)dist/node_modules.zip&quot;" />
+        <Exec Command="powershell Compress-Archive -Path &quot;$(NodePrintServerProjectDir)node_modules&quot; -DestinationPath &quot;$(ProjectDir)dist/node_modules.zip&quot;" />
     </Target>
 </Project>

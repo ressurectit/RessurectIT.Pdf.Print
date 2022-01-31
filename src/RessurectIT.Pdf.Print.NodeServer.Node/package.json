@@ -1,14 +1,13 @@
 {
     "name": "ressurectit.pdf.print.nodeserver",
     "version": "0.0.0-placeholder",
-    "description": "NodeJS server that enables usage of pdf-to-printer using gRPC",
+    "description": "NodeJS server that enables usage of pdf-to-printer",
     "scripts": {
         "build": "tsc",
-        "clean": "rimraf ../RessurectIT.Pdf.Print.NodeServer/dist src/proto",
+        "clean": "rimraf ../RessurectIT.Pdf.Print.NodeServer/dist",
         "clean:deps": "rimraf package-lock.json node_modules",
         "clean:all": "npm run clean && npm run clean:deps",
         "tsc": "tsc",
-        "generate:proto": "proto-loader-gen-types --grpcLib=@grpc/grpc-js --outDir=src/proto/ ../pdfPrint.proto",
         "lint": "eslint src/**/*.ts"
     },
     "engines": {
@@ -21,8 +20,7 @@
     "keywords": [
         "pdf",
         "print",
-        "node",
-        "grpc-server"
+        "node"
     ],
     "author": "kukjevov",
     "license": "MIT",
@@ -32,9 +30,6 @@
     "homepage": "https://github.com/ressurectit/RessurectIT.Pdf.Print",
     "dependencies": {
         "pdf-to-printer": "5.2.0",
-        "portfinder": "1.0.28",
-        "@grpc/proto-loader": "0.6.9",
-        "@grpc/grpc-js": "1.5.3",
         "tslib": "2.3.1"
     },
     "devDependencies": {

@@ -5,7 +5,8 @@ using PdfPrintServer server = new PdfPrintServer();
 
 //TODO: installer msi with own windows service as http server for printing
 
-await server.Start();
+var x = server.GetDefaultPrinter();
+var z = server.GetPrinters();
 
 server.Print("D:\\LV 227.pdf",
              new PrintOptions

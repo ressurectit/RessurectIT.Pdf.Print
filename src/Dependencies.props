@@ -6,9 +6,7 @@
         <DryIocMicrosoftDependencyInjection>5.1.0</DryIocMicrosoftDependencyInjection>
         <DryIocAttributesdll>6.1.0</DryIocAttributesdll>
         
-        <GoogleProtobuf>3.19.3</GoogleProtobuf>
-        <GrpcNetClient>2.42.0</GrpcNetClient>
-        <GrpcTools>2.43.0</GrpcTools>
+        <JeringJavascriptNodeJS>6.3.0</JeringJavascriptNodeJS>
 
         <MicrosoftExtensionsConfiguration>3.1.2</MicrosoftExtensionsConfiguration>
         <MicrosoftExtensionsConfigurationBinder>3.1.2</MicrosoftExtensionsConfigurationBinder>

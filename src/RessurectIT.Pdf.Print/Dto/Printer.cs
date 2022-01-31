@@ -3,7 +3,7 @@
 /// <summary>
 /// Basic info about printer
 /// </summary>
-public class PrinterDto
+public class Printer
 {
     #region public properties
 
