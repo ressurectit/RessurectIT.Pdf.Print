@@ -23,8 +23,8 @@
         <MicrosoftSourceLinkGitHub>1.1.1</MicrosoftSourceLinkGitHub>
 
         <NewtonsoftJson>13.0.1</NewtonsoftJson>
-        <RessurectITGitVersion>1.0.6</RessurectITGitVersion>
-        <RessurectITNuGetDeployment>2.1.4</RessurectITNuGetDeployment>
+        <RessurectITGitVersion>2.0.0</RessurectITGitVersion>
+        <RessurectITNuGetDeployment>3.0.0</RessurectITNuGetDeployment>
 
         <Serilog>2.10.0</Serilog>
         <SerilogAspNetCore>3.2.0</SerilogAspNetCore>
