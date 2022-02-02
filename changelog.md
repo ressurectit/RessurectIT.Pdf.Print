@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.0.1 (2022-02-02)
+
+### Bug Fixes
+
+- `RessurectIT.Pdf.Print.NodeServer`
+    - added missing SourceLink for github
+- `RessurectIT.Pdf.Print`
+    - added missing SourceLink for github
+
 ## Version 2.0.0 (2022-01-31)
 
 ### BREAKING CHANGES

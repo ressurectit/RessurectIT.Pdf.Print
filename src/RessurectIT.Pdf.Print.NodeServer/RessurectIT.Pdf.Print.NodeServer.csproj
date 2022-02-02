@@ -43,6 +43,7 @@
     <!-- NUGET DEPENDENCIES -->
     <ItemGroup>
         <PackageReference Include="Jering.Javascript.NodeJS" Version="$(JeringJavascriptNodeJS)" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="$(MicrosoftSourceLinkGitHub)" PrivateAssets="All" />
         <PackageReference Include="RessurectIT.Git.Version" Version="$(RessurectITGitVersion)" PrivateAssets="All" />
         <PackageReference Include="RessurectIT.NuGet.Deployment" Version="$(RessurectITNuGetDeployment)" PrivateAssets="All" />
     </ItemGroup>
