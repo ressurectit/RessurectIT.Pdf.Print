@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.0.2 (2022-02-02)
+
+### Bug Fixes
+
+- fixed warnings about *SourceLink* and *deterministic* in *NuGet*
+
 ## Version 2.0.1 (2022-02-02)
 
 ### Bug Fixes
